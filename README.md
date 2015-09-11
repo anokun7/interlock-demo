@@ -1,7 +1,7 @@
 # interlock-demo
 
 ###Pre-requisites
-- Docker Swarm should be configured up & running. There should exist at least two other nodes in the cluster.
+- Docker Swarm should be configured, up & running. There should exist at least two other nodes in the cluster.
 - Run `export DOCKER_HOST=<swarm-manager-ip>:<swarm-managed-exposed-port>`
 - `docker info` should run on all the cluster nodes and should show information about the cluster.
 - For this demo, we are not going to be using TLS / SSL, hence verify DOCKER_TLS_VERIFY is unset.
