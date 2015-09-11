@@ -26,12 +26,14 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 4.  On the client machine, open a browser and point it to http://stats:interlock@<node1-ip>/haproxy?stats. This should show the stats page for the haproxy container. Note that there is only a frontend with no backends registered to perform any work.
 
 5. Let's now spin up a few webserver containers. Run the following command, on any node in the cluster:
-```
-for i in {0..9}; do docker run -d -p 80$i:80 --hostname web$i.docker.demo nginx; done
-```
-Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
+  ```
+  for i in {0..9}; do docker run -d -p 80$i:80 --hostname web$i.docker.demo nginx; done
+  ```
+  - This will spawn 10 nginx containers with each having a unique hostname and exposing port 80 which is mapped to a unique port on the host. Depending on the clustering strategy used (default is spread), the 10 containers will be distributed across the cluster.
+  - Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
 
 6. Let's now run an actual demo website to see this in action. This can practically be any container that runs a website or networked aplication. Run the command below:
+
   ```
   for i in {1..2}; do docker run -d -P --hostname docker-training.com --name website$i ehazlett/docker-demo; done
   ```
