@@ -13,13 +13,13 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 
 ###Steps
 1. On any node that is part of the cluster, run to container from the ehazlett/interlock image. We want to use the haproxy plugin for this lab.
-```
-docker run -p 80:80 -d ehazlett/interlock --swarm-url $DOCKER_HOST --plugin haproxy start
-```
+  ```
+  docker run -p 80:80 -d ehazlett/interlock --swarm-url $DOCKER_HOST --plugin haproxy start
+  ```
 2. Due to the cluster scheduling, the haproxy container may actually be on be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
   - Alternatively, specify a filter (ie., constraint:nodename) to restrict the container to a specific docker host.
 
-`The next set of steps will assume that the interlock/haproxy container was started on `*node1* `.`
+  `The next set of steps will assume that the interlock/haproxy container was started on `*node1* `.`
 
 3. Ensure DNS is setup (or update /etc/hosts on your client machine) so as to ensure that node1 is resolvable.
 
