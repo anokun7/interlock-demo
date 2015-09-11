@@ -23,7 +23,7 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 
 3. Ensure DNS is setup (or update /etc/hosts on your client machine) so as to ensure that node1 is resolvable.
 
-4.  On the client machine, open a browser and point it to http://stats:interlock@<node1-ip>/haproxy?stats. This should show the stats page for the haproxy container. Note that there is only a frontend with no backends registered to perform any work.
+4.  On the client machine, open a browser and point it to http://stats:interlock@{node1-ip}/haproxy?stats. This should show the stats page for the haproxy container. Note that there is only a frontend with no backends registered to perform any work.
 
 5. Let's now spin up a few webserver containers. Run the following command, on any node in the cluster:
   ```
