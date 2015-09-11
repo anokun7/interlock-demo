@@ -1,17 +1,17 @@
 # interlock-demo
 
-*Pre-requisites*
+##Pre-requisites
 - Docker Swarm should be configured up & running. There should exist at least two other nodes in the cluster.
 - export DOCKER_HOST=<swarm-manager-ip>:<swarm-managed-exposed-port>
 - `docker info` should run on all the cluster nodes and should show information about the cluster.
 - For this demo, we are not going to be using TLS / SSL, hence verify DOCKER_TLS_VERIFY is unset.
 
-*Setup*
+##Setup
 Three docker hosts with docker-cs 1.8.1 or later installed.
 - node0 - This will be setup as the swarm manager (or also known as swarm master)
 - node1 and node2 - These will be other nodes that will be joined to the cluster. The swarm manager (node0) itself can also be a member of the cluster.
 
-*Steps*
+##Steps
 1. On any node that is part of the cluster run to container from the ehazlett/interlock image. We want to use the haproxy plugin for this lab.
 ```
 docker run -p 80:80 -d ehazlett/interlock --swarm-url $DOCKER_HOST --plugin haproxy start
