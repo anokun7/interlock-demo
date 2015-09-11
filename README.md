@@ -19,7 +19,7 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 2. Due to the cluster scheduling, the haproxy container may actually be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
   - Alternatively, specify a filter (ie., affinity:nodename or constraint:container) to restrict the container to a specific docker host. It seems to make sense to run the load balancer(s) on the same set of hosts that host the swarm manager(s).
 
-  `The next set of steps will assume that the interlock/haproxy container was started on `*node1* `.`
+  `The following steps will assume that the interlock/haproxy container was started on `*node1* `.`
 
 3. Ensure DNS is setup (or update /etc/hosts on your client machine) so as to ensure that node1 is resolvable.
 
