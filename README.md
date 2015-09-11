@@ -31,10 +31,10 @@ for i in {0..9}; do docker run -d -p 80$i:80 --hostname web$i.docker.demo nginx;
 ```
 Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
 
-6. Let's now run an actual demo website to see this in action. Run the command below:
-```
-for i in {1..2}; do docker run -d -P --hostname docker-training.com --name website$i ehazlett/docker-demo; done
-```
+6. Let's now run an actual demo website to see this in action. This can practically be any container that runs a website or networked aplication. Run the command below:
+  ```
+  for i in {1..2}; do docker run -d -P --hostname docker-training.com --name website$i ehazlett/docker-demo; done
+  ```
 7. On the client machine (the host where you run the internet browser), add docker-training.com as an alias to the node1 host in /etc/hosts.
 
 8. Browse to http://docker-training.com and you should see the website up and running. It should display the docker logo.
