@@ -12,26 +12,26 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 - node1 and node2 - These will be other nodes that will be joined to the cluster. The swarm manager (node0) itself can also be a member of the cluster.
 
 ###Steps
-1. On any node that is part of the cluster, run to container from the ehazlett/interlock image. We want to use the haproxy plugin for this lab.
+1. On any node that is part of the cluster, run a container from the ehazlett/interlock image using the command below. We want to use the haproxy plugin for this lab.
   ```
   docker run -p 80:80 -d ehazlett/interlock --swarm-url $DOCKER_HOST --plugin haproxy start
   ```
-2. Due to the cluster scheduling, the haproxy container may actually be on be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
+2. Due to the cluster scheduling, the haproxy container may actually be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
   - Alternatively, specify a filter (ie., affinity:nodename or constraint:container) to restrict the container to a specific docker host. It seems to make sense to run the load balancer(s) on the same set of hosts that host the swarm manager(s).
 
   `The next set of steps will assume that the interlock/haproxy container was started on `*node1* `.`
 
 3. Ensure DNS is setup (or update /etc/hosts on your client machine) so as to ensure that node1 is resolvable.
 
-4.  On the client machine, open a browser and point it to http://stats:interlock@{node1-ip}/haproxy?stats. This should show the stats page for the haproxy container. Note that there is only a frontend with no backends registered to perform any work.
+4.  On the client machine, open a browser and point it to http://stats:interlock@[node1-ip]/haproxy?stats. This should show the stats page for the haproxy container. Note that there is only a frontend listening on port 80 and no backends registered to perform any work.
 
 5. Let's now spin up a few webserver containers. Run the following command, on any node in the cluster:
   ```
   for i in {0..9}; do docker run -d -p 80$i:80 --hostname web$i.docker.demo nginx; done
   ```
   - This will spawn 10 nginx containers, each having a unique hostname and exposing port 80 which is mapped to a unique port on the host. Depending on the clustering strategy used (default is spread), the 10 containers will be distributed across the cluster.
-  - If you are following the haproxy logs `docker logs -f <container-id-of-interlock>` you should see a lot of event based activity. The interlock contain listens on the swarm manager's port for events to add or detach containers.
   - Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
+  - If you are following the haproxy logs `docker logs -f <container-id-of-interlock>` you should see a lot of event based activity. The interlock container listens on the swarm manager's port for events to add or detach containers.
 
 6. Let's now run an actual demo website to see this in action. This can practically be any container that runs a website or networked aplication. Run the command below:
 
