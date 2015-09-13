@@ -27,11 +27,11 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 
 5. Let's now spin up a few webserver containers. Run the following command, on any node in the cluster:
   ```
-  for i in {0..9}; do docker run -d -p 80$i:80 --hostname web$i.docker.demo nginx; done
+  for i in {0..9}; do docker run -d -p 80$i:80 --hostname web.docker.demo --name www$i nginx; done
   ```
   - This will spawn 10 nginx containers, each having a unique hostname and exposing port 80 which is mapped to a unique port on the host. Depending on the clustering strategy used (default is spread), the 10 containers will be distributed across the cluster.
   - Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
-  - If you are following the haproxy logs `docker logs -f <container-id-of-interlock>` you should see a lot of event based activity. The interlock container listens on the swarm manager's port for events to add or detach containers.
+  - If you are following the haproxy logs `docker logs -f lb0`, you should see a lot of event based activity scroll up. The interlock container listens on the swarm manager's port for all events to query, add or detach containers.
 
 6. Let's now run an actual demo website to see this in action. This can practically be any container that runs a website or networked aplication. Run the command below:
 
