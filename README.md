@@ -17,7 +17,7 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
   docker run -p 80:80 --name lb0 -d ehazlett/interlock --swarm-url $DOCKER_HOST --plugin haproxy start
   ```
 2. Due to the cluster scheduling, the haproxy container may actually be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
-  - Alternatively, specify a filter (ie., affinity:nodename or constraint:container) to restrict the container to a specific docker host. It seems to make sense to run the load balancer(s) on the same set of hosts that host the swarm manager(s).
+  - Alternatively, specify a filter (ie., affinity:nodename or constraint:container) to restrict the container to a specific docker host. ~~It seems to make sense to run the load balancer(s) on the same set of hosts that host the swarm manager(s).~~
 
   `The following steps will assume that the interlock/haproxy container was started on `*node1* `.`
 
