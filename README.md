@@ -7,7 +7,7 @@
 - For this demo, we are not going to be using TLS / SSL, hence verify DOCKER_TLS_VERIFY is unset.
 
 ###Setup
-Three docker hosts with docker-cs 1.8.1 or later installed.
+Three docker hosts with docker-cs 1.6 or docker open source 1.8.1 or later installed.
 - node0 - This will be setup as the swarm manager (or also known as swarm master)
 - node1 and node2 - These will be other nodes that will be joined to the cluster. The swarm manager (node0) itself can also be a member of the cluster.
 
@@ -45,3 +45,10 @@ Three docker hosts with docker-cs 1.8.1 or later installed.
 9. On any node in the cluster, run `docker ps | grep website`. Note that the containers are arbitrarily distributed and run on random ports. Go ahead and bring one of the containers down by running `docker stop website1`
 
 10. Go back to the browser and hit refresh, the site should still be up. You can also tail the container logs to see requests being served from the container that is up and running `docker logs -f website2`.
+
+#### Known issues & lessons learned in Swarm:
+1. When joining nodes to the cluster (using docker run -d swarm join --addr...), the = between addr is optional.
+2. When joining nodes to the cluster (using docker run -d swarm join --addr...), do NOT use tcp:// after --addr.
+3. When joining nodes to the cluster (using docker run -d swarm join --addr...), on AWS at least use only the DNS name after --addr.
+4. tcp:// is required in the DOCKER_HOST env variable. [e.g.: export DOCKER_HOST=tcp://localhost:9999 ]
+
