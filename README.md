@@ -19,7 +19,7 @@ Three docker hosts with docker-cs 1.6 or docker open source 1.8.1 or later insta
 2. Due to the cluster scheduling, the haproxy container may actually be running on a different host than the one where the above command was run. Use `docker ps | grep interlock` to identify the host it is running on.
   - Alternatively, specify a filter (ie., affinity:nodename or constraint:container) to restrict the container to a specific docker host. ~~It seems to make sense to run the load balancer(s) on the same set of hosts that host the swarm manager(s).~~
 
-  `The following steps will assume that the interlock/haproxy container was started on `*node1* `.`
+  *The following steps will assume that the interlock/haproxy container was started on `node1` .*
 
 3. Ensure DNS is setup (or update /etc/hosts on your client machine) so as to ensure that node1 is resolvable.
 
@@ -27,7 +27,8 @@ Three docker hosts with docker-cs 1.6 or docker open source 1.8.1 or later insta
 
 5. Let's now spin up a few webserver containers. Run the following command, on any node in the cluster:
   ```
-  for i in {0..9}; do docker run -d -p 80$i:80 --hostname web.docker.demo --name www$i nginx; done
+  for i in {0..9}; do docker run -d -p 80$i:80 --hostname web.docker.demo \
+  --name www$i nginx; done
   ```
   - This will spawn 10 nginx containers, each having a unique name, but bound to the same hostname and exposing port 80 which is mapped to a unique port on the host. Depending on the clustering strategy used (the default is spread), the 10 containers will be distributed across the cluster.
   - Check the URL again as in the previous step. You should see the backends automatically registering themselves with the haproxy load balancer.
@@ -36,7 +37,8 @@ Three docker hosts with docker-cs 1.6 or docker open source 1.8.1 or later insta
 6. Let's now run an actual demo website to see this in action. This can practically be any container that runs a website or networked aplication. Run the command below:
 
   ```
-  for i in {1..2}; do docker run -d -P --hostname docker-training.com --name website$i ehazlett/docker-demo; done
+  for i in {1..2}; do docker run -d -P --hostname docker-training.com \
+  --name website$i ehazlett/docker-demo; done
   ```
 7. On the client machine (the host where you run the internet browser), add docker-training.com as an alias to the node1 host in /etc/hosts.
 
